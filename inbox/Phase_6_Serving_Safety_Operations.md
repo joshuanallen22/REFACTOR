@@ -1,44 +1,44 @@
-# Phase 6 — Serving, Safety Enforcement & Operations Checklist
+# Phase 6 — Serving, Safety, & Operations Checklist
 
-**Timeline:** Weeks 20–28  
-**Dependencies:** Phases 0–5  
-**Objective:** Harden system for production inference with safety enforcement, deployment automation, and operational readiness.
+| Field | Details |
+| --- | --- |
+| **Timeline** | Weeks 24–28 |
+| **Dependencies** | Phases 1–5 components validated |
+| **Phase Gate** | Production readiness review |
+| **Objective** | Prepare serving infrastructure, safety enforcement, and operational telemetry for deployment. |
 
-## Serving Infrastructure
-- [ ] Implement REST APIs (`/v1/generate`, retrieval admin endpoints) with authentication, rate limiting, and schema validation.
-- [ ] Integrate KV Cache++ for streaming inference with fallback to linear attention beyond `L_switch`.
-- [ ] Build batching/streaming controllers for interactive and batch serving modes.
-- [ ] Containerize serving stack with reproducible builds and supply-chain attestations.
-- [ ] Develop infrastructure-as-code (Terraform/Helm) for staging and production clusters.
+## Workstreams & Tasks
 
-## Safety & Policy Enforcement
-- [ ] Implement constrained decoding enforcing safety masks and forbidden token lists.
-- [ ] Integrate retrieval kill-switch and tool gating automation triggered by telemetry thresholds.
-- [ ] Conduct adversarial prompt tests covering schema violations, tool misuse, and retrieval poisoning scenarios.
-- [ ] Establish incident response workflows for safety breaches, including automatic disable mechanisms.
-- [ ] Audit logging for tool calls, retrieval decisions, and safety interventions with retention policy.
+### Serving Infrastructure
+- [ ] Implement interactive, batch, and ultra-long serving modes with KV Cache++ integration.
+- [ ] Build autoscaling configuration with load-shedding policies and warm pool strategy.
+- [ ] Integrate model checkpoint loader supporting EMA snapshots and versioned router/retriever states.
+- [ ] Configure observability for latency, throughput, and memory usage per deployment mode.
 
-## Performance & Reliability
-- [ ] Execute latency benchmarks across serving modes (interactive, batch, ultra-long) on reference hardware (8×H100).
-- [ ] Validate memory footprint per layer per 4k tokens meets ≤0.7 GB target under load.
-- [ ] Implement autoscaling policies based on request rate, latency, and GPU utilization.
-- [ ] Run chaos and failover drills (node loss, retrieval outage, tool service unavailability).
+### Safety & Policy Enforcement
+- [ ] Implement safety masks, constrained decoding, and tool/retrieval allow-lists within serving stack.
+- [ ] Integrate real-time safety classifiers or guardrails for prompt/protocol misuse detection.
+- [ ] Establish incident response workflow for safety breaches with kill-switch automation.
+- [ ] Conduct adversarial prompt and retrieval poisoning tests with documented outcomes.
 
-## Telemetry & Observability
-- [ ] Finalize production dashboards covering latency, throughput, error rates, retrieval precision, and safety events.
-- [ ] Integrate alert routing to on-call rotations with runbooks for each alert class.
-- [ ] Verify PII scrubbing in telemetry payloads and compliance with privacy requirements.
-- [ ] Ensure logs/metrics are exportable via Prometheus/OpenTelemetry endpoints documented in runbooks.
+### Operations & SRE
+- [ ] Build runbooks for deployment, rollback, and failover across regions.
+- [ ] Configure alerting thresholds for latency, error rates, retrieval precision, router entropy, and memory health.
+- [ ] Implement log/metric export to centralized observability platform with privacy filters.
+- [ ] Define on-call rotation, escalation matrix, and maintenance windows.
 
-## Documentation & Operational Readiness
-- [ ] Produce runbooks/playbooks for deployments, rollback, calibration, and incident response.
-- [ ] Conduct readiness review with cross-functional stakeholders (infra, safety, product, support).
-- [ ] Train support staff on API usage, rate limits, and troubleshooting flows.
-- [ ] Prepare customer-facing changelog and SLA documentation referencing production metrics.
+### Documentation & Enablement
+- [ ] Publish API documentation (REST + SDK samples) including tool/retrieval configuration guidance.
+- [ ] Provide operations handbook covering dashboards, alert response, and routine maintenance.
+- [ ] Deliver customer-facing SLAs and communication templates for incidents.
+
+## Validation & Telemetry
+- [ ] Load tests for interactive and batch modes meet latency and throughput targets.
+- [ ] Chaos exercises validate failover, cache rebuild, and retrieval disablement procedures.
+- [ ] Safety drills demonstrate kill-switch activation and policy rollback effectiveness.
 
 ## Exit Criteria
-- [ ] P95 latency ≤30 ms/token achieved on target hardware; benchmark report approved.
-- [ ] Safety kill-switch and retrieval/tool disable flows validated during drills with logs retained.
-- [ ] Operations review sign-off recorded with runbooks/playbooks version-controlled.
-- [ ] Production monitoring and alerting tested end-to-end with paging confirmations.
-- [ ] Checklist archived to `outbox/` with links to readiness review notes, benchmark data, and incident drill reports.
+- [ ] Production readiness review approves serving stack, safety enforcement, and SRE coverage.
+- [ ] Telemetry dashboards live with alert routing verified through dry runs.
+- [ ] External documentation published and reviewed by legal/privacy stakeholders.
+- [ ] Checklist archived to `outbox/` with links to runbooks, dashboards, and SLA documents.

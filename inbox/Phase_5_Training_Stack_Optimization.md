@@ -1,48 +1,48 @@
 # Phase 5 — Training Stack & Optimization Checklist
 
-**Timeline:** Weeks 16–24  
-**Dependencies:** Phases 0–4  
-**Objective:** Deliver end-to-end training pipeline, data processing, evaluation suites, and monitoring aligned with REFRACTOR objectives.
+| Field | Details |
+| --- | --- |
+| **Timeline** | Weeks 18–24 |
+| **Dependencies** | Phases 1–4 components integrated |
+| **Phase Gate** | Training readiness review |
+| **Objective** | Establish scalable training pipelines, optimization schedules, data curation, and auxiliary objectives. |
 
-## Data Pipeline
-- [ ] Implement ingestion framework supporting multi-source datasets with deduplication (MinHash/LSH).
-- [ ] Configure quality filters (language ID, perplexity bands, heuristic quality scores) with audit logs.
-- [ ] Build curriculum scheduler expanding context lengths (2k → 8k → 128k) and mixing retrieval tasks.
-- [ ] Set up domain mixing via temperature sampling; validate distribution against targets.
-- [ ] Automate data validation tests ensuring schema compliance and provenance tracking.
+## Workstreams & Tasks
 
-## Training Orchestration
-- [ ] Implement training CLI reading YAML configs (Section 12.1) with overrides for scale tests.
-- [ ] Integrate optimizer (AdamW/Adafactor) with warmup + cosine decay schedule satisfying Robbins–Monro criteria.
-- [ ] Add mixed-precision support (bf16) with FP32 master weights and dynamic loss scaling if needed.
-- [ ] Configure gradient clipping (global norm 1.0) and checkpointing with EMA weights.
-- [ ] Implement auxiliary losses for retrieval precision, router load balance/regret, safety conformance, and long-range tasks.
+### Data Pipeline
+- [ ] Finalize data deduplication, filtering, and domain mixing strategy with quality metrics.
+- [ ] Implement curriculum scheduler ramping context length and retrieval/task injections.
+- [ ] Build data provenance tracking with trust scoring and TTL policies.
+- [ ] Integrate preference datasets and retrieval-labeled corpora for auxiliary losses.
 
-## Parallelism & Scaling
-- [ ] Provide launcher scripts for tensor, expert, and pipeline parallelism across multi-node clusters.
-- [ ] Validate activation checkpointing and gradient accumulation parameters for memory efficiency.
-- [ ] Benchmark throughput vs. scaling factor to determine optimal parallel configuration.
-- [ ] Document hardware requirements and scaling limits for training phases.
+### Optimization & Infrastructure
+- [ ] Configure optimizer (AdamW/Adafactor) with warmup, cosine decay, and gradient clipping policies per spec.
+- [ ] Stand up distributed training launchers (tensor, expert, pipeline parallel) with reproducibility controls.
+- [ ] Implement activation checkpointing and mixed-precision flows with failover for overflow/NaN detection.
+- [ ] Capture EMA weight management, snapshot cadence, and artifact promotion process.
 
-## Evaluation & Testing
-- [ ] Develop regression suite covering perplexity benchmarks, retrieval precision@k, long-range tasks, and safety tests.
-- [ ] Automate evaluation runs triggered nightly and on major merges with report generation.
-- [ ] Ensure telemetry captures optimization metrics (loss, grad norm, LR), router usage, retrieval precision, and safety counters.
-- [ ] Establish alerting for instability (NaNs/overflows, loss spikes, entropy collapse) with pager routing.
+### Auxiliary Objectives & Regularization
+- [ ] Integrate retrieval contrastive loss, router load-balance, regret regularization, and safety conformance objectives.
+- [ ] Tune loss weights with automated sweeps capturing validation metrics and convergence behavior.
+- [ ] Build long-range synthetic task generation to stress >80% signal beyond local window.
 
-## Monitoring & Dashboards
-- [ ] Build dashboards for SLA metrics (latency, retrieval precision, safety incidents) sourced from training telemetry.
-- [ ] Integrate with SLA dashboard skeleton from Phase 0; confirm metric availability and retention.
-- [ ] Provide drill-down views for MoE expert utilization and retrieval guard rejections.
+### Telemetry & Monitoring
+- [ ] Emit per-batch optimization metrics (loss, grad norm, LR, β1/β2 effective) to telemetry stack.
+- [ ] Track attention entropy, router usage, retrieval precision, and memory compression metrics during training.
+- [ ] Configure alerts for divergence indicators (entropy collapse, low precision@k, NaN spikes).
 
-## Documentation & Handover
-- [ ] Write operator runbooks for launching, monitoring, and pausing training jobs.
-- [ ] Document evaluation dataset provenance and access controls.
-- [ ] Produce troubleshooting guide for common training failures (instability, divergence, throughput regression).
+### Documentation & Runbooks
+- [ ] Document training configuration templates, launch commands, and failure recovery procedures.
+- [ ] Provide runbook for data pipeline incidents, including rollback steps for corrupted shards.
+- [ ] Publish KPI dashboard definitions and acceptance targets for core metrics.
+
+## Validation & Telemetry
+- [ ] Dry-run training on subset verifying end-to-end pipeline, checkpointing, and telemetry integration.
+- [ ] Conduct hyperparameter sweep to validate optimization stability and guardrail thresholds.
+- [ ] Evaluate retrieval precision@k and router balance on validation tasks each epoch with automated reports.
 
 ## Exit Criteria
-- [ ] Pilot end-to-end training run completes without instability; logs captured and reviewed.
-- [ ] Evaluation suite gates merges via CI and reports archived with checklist.
-- [ ] SLA dashboards populated with live training metrics and alert tests validated.
-- [ ] Auxiliary losses converge to target ranges documented in specification Appendix B.
-- [ ] Checklist archived to `outbox/` including runbooks, benchmark reports, and evaluation artifacts.
+- [ ] Training pipeline approved by architecture, infra, and safety reviewers with documented sign-offs.
+- [ ] KPI dashboards live with alerting configured and tested.
+- [ ] Data governance artifacts (provenance, trust, privacy review) completed and archived.
+- [ ] Checklist archived to `outbox/` with references to configs, dashboards, and runbooks.

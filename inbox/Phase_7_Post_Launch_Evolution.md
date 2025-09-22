@@ -1,38 +1,41 @@
-# Phase 7 — Post-Launch Evolution & Versioning Checklist
+# Phase 7 — Post-Launch Evolution & Continuous Improvement Checklist
 
-**Timeline:** Weeks 28+  
-**Dependencies:** Phases 0–6 completion and production launch  
-**Objective:** Establish continuous improvement processes, versioned interfaces, and experimentation cadence for REFRACTOR.
+| Field | Details |
+| --- | --- |
+| **Timeline** | Weeks 28+ (continuous) |
+| **Dependencies** | Production launch |
+| **Phase Gate** | Quarterly roadmap review |
+| **Objective** | Govern iterative improvements, telemetry-driven tuning, and roadmap planning after launch. |
 
-## Versioning & Change Management
-- [ ] Document semantic versioning policy for model checkpoints, retrieval index formats, and KV codecs.
-- [ ] Implement automated compatibility checks ensuring decoders handle last two KV codec versions.
-- [ ] Build migration tooling for retrieval index upgrades with rollback plans and validation suites.
-- [ ] Establish change approval board reviewing representation and schema modifications.
-- [ ] Maintain changelog and customer communication templates for version releases.
+## Workstreams & Tasks
 
-## Experimentation Framework
-- [ ] Create experiment backlog capturing hypotheses (geometric heads, modality expansion, routing variants).
-- [ ] Implement experiment orchestration templates with metrics, guardrails, and success criteria.
-- [ ] Set up A/B testing infrastructure or offline evaluation harness for experiments.
-- [ ] Ensure retrieval/tool precision targets enforced during experiments via automated monitoring.
-- [ ] Capture experiment results repository with metadata (owners, dates, decisions).
+### Post-Launch Operations
+- [ ] Establish release cadence with semantic versioning and change-impact assessments.
+- [ ] Maintain approvals log for router/retriever recalibrations and safety policy updates.
+- [ ] Track SLA adherence and incident retrospectives with action item follow-up.
 
-## Telemetry & Guardrails
-- [ ] Schedule monthly telemetry review meetings analyzing router entropy, retrieval precision, safety incidents, and latency trends.
-- [ ] Implement automated alerts for SLA deviations persisting beyond agreed thresholds.
-- [ ] Expand dashboards to include long-term trends and anomaly detection overlays.
-- [ ] Verify privacy/PII policies remain compliant under evolving telemetry capture.
+### Telemetry & Experimentation
+- [ ] Implement experimentation framework for retrieval/router policy changes and feature flags.
+- [ ] Monitor long-term trends in precision, latency, and safety metrics with automated anomaly detection.
+- [ ] Schedule regular calibration of retriever similarity thresholds and router temperatures based on telemetry.
 
-## Operations & Support
-- [ ] Exercise change management workflow on at least one minor upgrade, documenting steps and outcomes.
-- [ ] Update runbooks with lessons learned from post-launch incidents and experiments.
-- [ ] Review support tickets and feedback loops to feed backlog prioritization.
-- [ ] Train teams on version rollback procedures and communication protocols.
+### Product & Roadmap Alignment
+- [ ] Collect customer feedback loops informing schema/tool extensions and modality expansions.
+- [ ] Update roadmap backlog with prioritized improvements tied to telemetry findings and customer requests.
+- [ ] Align research experiments (e.g., new attention kernels) with production guardrails and evaluation plans.
+
+### Governance & Documentation
+- [ ] Run quarterly governance reviews covering risk posture, compliance updates, and roadmap adjustments.
+- [ ] Maintain documentation versioning for APIs, configurations, and operational runbooks.
+- [ ] Ensure inbox/outbox workflow continues with archived artifacts indexed for discoverability.
+
+## Validation & Telemetry
+- [ ] Quarterly health checks confirm KPI dashboards within target bands.
+- [ ] Experiment reviews document hypothesis, guardrails, and decision outcomes.
+- [ ] Audit logs verify policy changes followed approval workflow.
 
 ## Exit Criteria
-- [ ] Baseline SLAs met continuously for one month with evidence stored alongside checklist.
-- [ ] At least one version upgrade executed using defined change management process with postmortem published.
-- [ ] Experimentation framework approved by research/product leadership and actively in use.
-- [ ] Telemetry review cadence established with minutes recorded for two consecutive cycles.
-- [ ] Checklist archived to `outbox/` with references to versioning docs, experiment logs, and SLA reports.
+- [ ] Continuous improvement loop operational with telemetry-driven prioritization.
+- [ ] Governance forums active with documented decisions and action items.
+- [ ] Backlog maintained with horizon scanning for next major architecture iteration.
+- [ ] Checklist archived to `outbox/` each quarter with updated artifacts and summaries.

@@ -1,43 +1,48 @@
-# Phase 2 — Relation Fabric & Retrieval Pipeline Checklist
+# Phase 2 — Relation Fabric & Retrieval Enablement Checklist
 
-**Timeline:** Weeks 5–10  
-**Dependencies:** Phases 0–1  
-**Objective:** Implement tri-tier attention backbone and retrieval services integrated with distinction outputs and guard policies.
+| Field | Details |
+| --- | --- |
+| **Timeline** | Weeks 6–10 |
+| **Dependencies** | Phase 1 ingestion, telemetry baseline |
+| **Phase Gate** | Model architecture review |
+| **Objective** | Deliver tri-tier attention fabric with retrieval fan-in, precision controls, and observability hooks. |
 
-## Attention Backbone
-- [ ] Implement sliding/dilated/local attention kernels with configurable window, stride, and dilation parameters.
-- [ ] Add dense parity tests comparing sparse kernels against reference attention on small contexts (≤2k tokens).
-- [ ] Integrate grouped/multi-query projections with configuration-driven head sharing.
-- [ ] Provide benchmarking harness measuring throughput/memory for 4k, 16k, and 64k contexts.
-- [ ] Document kernel configuration options and scaling tradeoffs in developer docs.
+## Workstreams & Tasks
 
-## Global Summary Modules
-- [ ] Implement summary token generation (mean, max, attention pooling) per block with projection layers.
-- [ ] Validate summary participation as keys/values through integration tests with local attention.
-- [ ] Ensure summaries respect mask constraints and segment boundaries.
-- [ ] Capture telemetry on summary utilization (attention weights, entropy) and expose dashboards.
+### Attention Topology
+- [ ] Implement configurable local/sparse backbone supporting window, dilation, stride, and pattern parameters per layer.
+- [ ] Build global summary generation (pooling heads) with projection into shared attention context.
+- [ ] Integrate retrieval cross-attention module with gating by precision thresholds and max fan-in.
+- [ ] Provide fallbacks to linear/kernelized attention when context exceeds `L_switch` with parity tests on small cases.
 
-## Retrieval Cross-Attention
-- [ ] Build retrieval KV projection path consuming episodic records into attention layers.
-- [ ] Enforce precision thresholds (`sigma_min`, `trust_min`, `t_max_s`) with rejection logging.
-- [ ] Implement guard policies (allow lists, copy/tool permissions) affecting cross-attention masks.
-- [ ] Create integration tests combining retrieval results with token streams verifying mask conformance.
-- [ ] Instrument telemetry for retrieval call budgets, precision@k, and rejection reasons.
+### Retrieval Integration
+- [ ] Implement episodic store API (upsert/search/prune) with HNSW or IVF-Flat index configuration.
+- [ ] Encode precision filters (similarity, trust, age, source allow-list) and enforce at query time with unit tests.
+- [ ] Build guarded retrieval pipeline returning policy-compliant results and telemetry on filter rejects.
+- [ ] Instrument retrieval latency, precision@k, and rejection reasons in telemetry stream.
 
-## Memory Backends (Phase 2 scope)
-- [ ] Implement episodic store service with ANN index (HNSW/IVF) and filter predicates.
-- [ ] Stub schema memory API to support upcoming safety workflows.
-- [ ] Provide data ingestion and pruning jobs honoring TTL and provenance constraints.
-- [ ] Develop load tests simulating concurrent upsert/search workloads.
+### Masking & Safety Alignment
+- [ ] Extend mask compiler to generate retrieval and safety scope masks for retrieved spans.
+- [ ] Add constrained decoding hooks preventing unsafe token generation within safety scopes.
+- [ ] Validate retrieval payload tagging integrates with policy enforcement and downstream routers.
 
-## Tooling & Interfaces
-- [ ] Expose REST/gRPC endpoints for retrieval `search` and `upsert` with authentication hooks.
-- [ ] Generate API documentation and usage examples for downstream teams.
-- [ ] Automate deployment manifests (Helm/Terraform) for retrieval services in staging.
+### Telemetry & Diagnostics
+- [ ] Log attention entropy per tier, retrieval precision histograms, and mask utilization metrics.
+- [ ] Build dashboards correlating retrieval calls with acceptance, rejection, and similarity scores.
+- [ ] Configure alerts when precision@k drops below thresholds or retrieval latency exceeds budgets.
+
+### Documentation & Change Control
+- [ ] Document configuration interfaces for attention topology, retrieval filters, and linear-mode switches.
+- [ ] Provide migration guidance for adding new retrieval sources or mask classes.
+- [ ] Record troubleshooting guide for common retrieval failures (index desync, low precision, policy rejection).
+
+## Validation & Telemetry
+- [ ] Unit tests cover mask compiler retrieval classes and constrained decoding invariants.
+- [ ] Integration suite exercises retrieval fan-in with synthetic and labeled datasets measuring precision.
+- [ ] Performance benchmarks validate attention kernels across supported context lengths.
 
 ## Exit Criteria
-- [ ] Attention kernels achieve ≤1e-5 relative error versus dense baseline and benchmarks captured for 4k/16k/64k contexts.
-- [ ] Retrieval precision@k on labeled fixtures meets or exceeds configured threshold; reports stored with checklist.
-- [ ] Guarded retrieval integration tests confirm disallowed sources/tool invocations are blocked.
-- [ ] Telemetry dashboards for attention entropy, retrieval precision, and call budgets live with alert thresholds tested.
-- [ ] Checklist archived to `outbox/` following architecture review sign-off.
+- [ ] Architecture review approves relation fabric and retrieval integration design.
+- [ ] Telemetry dashboards demonstrate stable retrieval precision@k and attention entropy within guardrails.
+- [ ] Documentation published with upgrade procedures and change log.
+- [ ] Checklist archived to `outbox/` with links to tests, dashboards, and API references.
