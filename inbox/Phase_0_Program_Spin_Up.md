@@ -19,11 +19,11 @@
 - [ ] Create baseline telemetry ingestion (metrics/logging endpoints) verifying heartbeat metrics reach monitoring stack.
 
 ## Planning & Risk Management
-- [ ] Build comprehensive work breakdown structure linked to phases and owner teams.
-- [ ] Populate initial backlog tickets derived from Phase 1 scope with sizing and dependencies.
-- [ ] Establish risk register capturing top technical, scheduling, and operational risks with mitigation owners.
-- [ ] Draft SLA dashboard skeleton covering latency, availability, retrieval precision, and safety metrics.
-- [ ] Document inbox/outbox workflow policy and communicate to teams.
+- [x] Build comprehensive work breakdown structure linked to phases and owner teams. (`specification/phase0/Work_Breakdown_Structure.md`)
+- [x] Populate initial backlog tickets derived from Phase 1 scope with sizing and dependencies. (`specification/phase0/Phase1_Backlog_Seed.md`)
+- [x] Establish risk register capturing top technical, scheduling, and operational risks with mitigation owners. (`specification/phase0/Risk_Register.md`)
+- [x] Draft SLA dashboard skeleton covering latency, availability, retrieval precision, and safety metrics. (`specification/phase0/SLA_Dashboard_Skeleton.md`)
+- [x] Document inbox/outbox workflow policy and communicate to teams. (`specification/phase0/Inbox_Outbox_Workflow.md`)
 
 ## Exit Criteria
 - [ ] CI pipelines pass on baseline repository build and test invocations.

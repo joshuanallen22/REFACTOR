@@ -5,11 +5,11 @@
 **Objective:** Deliver ingestion pipeline converting requests into validated token streams with masks, gating features, and telemetry.
 
 ## Reframer Service
-- [ ] Finalize JSON schemas for inbound requests, roles, and constraint metadata.
-- [ ] Implement schema validation with descriptive error reporting and golden fixtures.
-- [ ] Encode constraint extraction logic (tool budgets, safety flags, retrieval policies) with unit coverage.
-- [ ] Build protocol tag parser translating annotations into role + mask hints.
-- [ ] Expose reframer API endpoints with contract tests and OpenAPI documentation.
+- [x] Finalize JSON schemas for inbound requests, roles, and constraint metadata. *(See `specification/phase1/Reframer_Service.md` §2.)*
+- [x] Implement schema validation with descriptive error reporting and golden fixtures. *(See `specification/phase1/Reframer_Service.md` §3.)*
+- [x] Encode constraint extraction logic (tool budgets, safety flags, retrieval policies) with unit coverage. *(See `specification/phase1/Reframer_Service.md` §4.)*
+- [x] Build protocol tag parser translating annotations into role + mask hints. *(See `specification/phase1/Reframer_Service.md` §5.)*
+- [x] Expose reframer API endpoints with contract tests and OpenAPI documentation. *(See `specification/phase1/Reframer_Service.md` §6.)*
 
 ## Tokenizer / Codec
 - [ ] Select base vocabulary and implement extensible tokenizer supporting reserved protocol tokens.
